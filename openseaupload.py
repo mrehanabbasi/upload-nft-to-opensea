@@ -1,4 +1,4 @@
-import itertools
+# import itertools
 import os
 
 import pandas
@@ -15,29 +15,39 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+testnet_url = 'https://testnets.opensea.io/asset/create'
+mainnet_url = 'https://opensea.io/asset/create'
 
-def uploadFiles(startItemId, count, isrinkeby, mnemonicString, walletPwd):
+
+def uploadFiles(start_item_id, count, is_rinkeby, metamask_exists):
     chop = webdriver.ChromeOptions()
-    chop.add_extension('MetaMask_v10.0.2.crx')
+    if not metamask_exists:
+        chop.add_extension('MetaMask_v10.1.1.crx')
     driver = webdriver.Opera(options=chop)
     wait = WebDriverWait(driver, 60)
     df = pandas.read_csv('Generated/metadata.csv')
-    if isrinkeby:
-        url = 'https://testnets.opensea.io/asset/create'
+    if is_rinkeby:
+        url = testnet_url
     else:
-        url = 'https://opensea.io/asset/create'
+        url = mainnet_url
     driver.get(url)
     time.sleep(0.5)
-    signIntoMeta(driver, wait, isrinkeby, mnemonicString, walletPwd)
+
+    # If Metamask extension is not already installed and not logged into OpenSea
+    if not metamask_exists:
+        passphrase = os.getenv('METAMASK_PASSPHRASE')
+        wallet_pwd = os.getenv('METAMASK_PASSWORD')
+        signIntoMeta(driver, wait, is_rinkeby, passphrase, wallet_pwd)
+
     tabs2 = driver.window_handles
     driver.switch_to.window(tabs2[1])
     time.sleep(2)
     for index, row in df.iterrows():
-        itemId = row['ID']
-        if itemId < startItemId or itemId >= startItemId + count:
-            print('skipping row:', index, itemId)
+        item_id = row['ID']
+        if item_id < start_item_id or item_id >= start_item_id + count:
+            print('Skipping row:', index, item_id)
             continue
-        print('Running row:', index, itemId)
+        print('Running row:', index, item_id)
         if index > 0:
             wait.until(ExpectedConditions.presence_of_element_located(
                 (By.XPATH, '//*[@id="__next"]/div[1]/div[1]/nav/ul/li[4]/a')))
@@ -45,8 +55,8 @@ def uploadFiles(startItemId, count, isrinkeby, mnemonicString, walletPwd):
                 '//*[@id="__next"]/div[1]/div[1]/nav/ul/li[4]/a')
             createPage.click()
         filePath = 'Generated\\{} ABCs {} {}.png'.format(
-            itemId, row['Letter Permutation'], row['Hat'])
-        print(filePath, itemId, row['Background'], row['Font'], row['Font & Colour Combination'],
+            item_id, row['Letter Permutation'], row['Hat'])
+        print(filePath, item_id, row['Background'], row['Font'], row['Font & Colour Combination'],
               row['Font Colour'], row['Hat'], row['Letter 1'], row['Letter 2'],
               row['Letter 3'], row['Letter Permutation'], row['Special'], row['Name'])
         wait.until(ExpectedConditions.presence_of_element_located(
@@ -111,7 +121,7 @@ def uploadFiles(startItemId, count, isrinkeby, mnemonicString, walletPwd):
             '//*[@id="__next"]/div[1]/main/div/div/section/div/form/div/div[1]/span/button')
         # time.sleep(5000)
         createNFT.click()
-        print('creating nft ', itemId, row['Background'], row['Font'], row['Font & Colour Combination'],
+        print('creating nft ', item_id, row['Background'], row['Font'], row['Font & Colour Combination'],
               row['Hat'], row['Letter Permutation'])
         '/html/body/div[4]/div/div/div/div[1]/header/h4'
         wait.until(ExpectedConditions.presence_of_element_located(
@@ -122,7 +132,7 @@ def uploadFiles(startItemId, count, isrinkeby, mnemonicString, walletPwd):
             closeCreateModal.click()
         except:
             print('Close Create Modal not found for ',
-                  itemId, row['Letter Permutation'])
+                  item_id, row['Letter Permutation'])
 
 
 def signIntoMeta(driver, wait, isrinkeby, mnemonicString, walletPwd):
@@ -201,7 +211,5 @@ def signIntoMeta(driver, wait, isrinkeby, mnemonicString, walletPwd):
 
 
 if __name__ == '__main__':
-    uploadFiles(186, 65, False,
-                mnemonicString='',
-                walletPwd=''
-                )
+    uploadFiles(start_item_id=186, count=65,
+                is_rinkeby=False, metamask_exists=True)
