@@ -1,2 +1,2 @@
-ID,Background,Font,Font & Colour Combination,Font Colour,Hat,Letter 1,Letter 2,Letter 3,Letter Permutation,Special,Name
-51,backgroundFileName,SomeFolder,SomeFolder & Colour,Colour,None,S,L,N,SLN,,Name
+dna,name,description,image,edition,date,font,background,bicycle,text
+Some text,#1,Some description.,ipfs://NewUriToReplace/1.png,1,mm/dd/yyyy,Sans Serif,Background color,color,Some text
