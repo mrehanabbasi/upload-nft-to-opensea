@@ -52,8 +52,8 @@ def upload_files(start_item_id, count, is_rinkeby):
         if index > 0:
             wait.until(ExpectedConditions.presence_of_element_located(
                 (By.XPATH, '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')))
-            createPage = driver.find_element(By.XPATH,
-                                             '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')
+            createPage = driver.find_element(
+                By.XPATH, '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')
             createPage.click()
         file_path = f"Generated\{item_id}.png"
         print('Started', file_path, item_id, row['background'],
@@ -95,7 +95,6 @@ def upload_files(start_item_id, count, is_rinkeby):
         # Properties population from metadata.csv file
         properties_plus_button = driver.find_element(
             By.XPATH, '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/section/div[1]/div/div[2]/button')
-        # '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[6]/div[1]/div/div[2]/button')
         properties_plus_button.click()
         print('Starting properties population...')
         unneeded = ['dna', 'name', 'description',
