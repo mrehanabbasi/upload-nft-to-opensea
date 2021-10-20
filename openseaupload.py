@@ -111,7 +111,7 @@ def upload_files(start_item_id, count, is_rinkeby):
             prop_key_input_xpath = f'/html/body/div[{prop_div_num}]/div/div/div/section/table/tbody/tr[{i-4}]/td[1]/div/div/input'
             # prop_div_num can be 5 or 2 depending on the situation
             # This is to ensure that there is no error while code is running
-            if len(driver.find_elements_by_xpath(prop_key_input_xpath)) <= 0:
+            if len(driver.find_elements(By.XPATH, prop_key_input_xpath)) <= 0:
                 prop_div_num = 2
                 prop_key_input_xpath = f'/html/body/div[{prop_div_num}]/div/div/div/section/table/tbody/tr[{i-4}]/td[1]/div/div/input'
             # /html/body/div[2]/div/div/div/section/table/tbody/tr[2]/td[1]/div/div/input
