@@ -52,8 +52,8 @@ def upload_files(start_item_id, count, is_rinkeby):
         if index > 0:
             wait.until(ExpectedConditions.presence_of_element_located(
                 (By.XPATH, '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')))
-            createPage = driver.find_element_by_xpath(
-                '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')
+            createPage = driver.find_element(By.XPATH,
+                                             '//*[@id="__next"]/div[1]/div[1]/nav/ul/div[1]/li[4]/a')
             createPage.click()
         file_path = f"Generated\{item_id}.png"
         print('Started', file_path, item_id, row['background'],
@@ -62,21 +62,21 @@ def upload_files(start_item_id, count, is_rinkeby):
         # Upload image
         wait.until(ExpectedConditions.presence_of_element_located(
             (By.XPATH, '//*[@id="media"]')))
-        image_upload = driver.find_element_by_xpath('//*[@id="media"]')
+        image_upload = driver.find_element(By.XPATH, '//*[@id="media"]')
         image_path = os.path.abspath(file_path)
         image_upload.send_keys(image_path)
 
         # Add NFT name
-        name = driver.find_element_by_xpath('//*[@id="name"]')
+        name = driver.find_element(By.XPATH, '//*[@id="name"]')
         name.send_keys(f"{project_name} {row['name']}")
         # Add NFT description
-        description = driver.find_element_by_xpath('//*[@id="description"]')
+        description = driver.find_element(By.XPATH, '//*[@id="description"]')
         description.send_keys(
             f"{row['description']} {row['background']} - {row['bicycle']} - {row['text']} - {row['font']}")
 
         # Select Collection name (should be already created)
-        collection_name = driver.find_element_by_xpath(
-            '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/div[5]/div/div[2]/input')
+        collection_name = driver.find_element(
+            By.XPATH, '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/div[5]/div/div[2]/input')
         # '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[5]/div/input')
         # Below two lines are to ensure that there is no extra text in input field
         # collection_name.clear() was not working
@@ -87,14 +87,14 @@ def upload_files(start_item_id, count, is_rinkeby):
         collection_button_from_list_name = f'//span[normalize-space()="{project_name}"]'
         wait.until(ExpectedConditions.presence_of_element_located(
             (By.XPATH, collection_button_from_list_name)))
-        collection_button_from_list = driver.find_element_by_xpath(
-            collection_button_from_list_name)
+        collection_button_from_list = driver.find_element(
+            By.XPATH, collection_button_from_list_name)
         collection_button_from_list.click()
         time.sleep(0.1)
 
         # Properties population from metadata.csv file
-        properties_plus_button = driver.find_element_by_xpath(
-            '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/section/div[1]/div/div[2]/button')
+        properties_plus_button = driver.find_element(
+            By.XPATH, '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/section/div[1]/div/div[2]/button')
         # '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[6]/div[1]/div/div[2]/button')
         properties_plus_button.click()
         print('Starting properties population...')
@@ -105,8 +105,8 @@ def upload_files(start_item_id, count, is_rinkeby):
                 continue
             wait.until(ExpectedConditions.presence_of_element_located(
                 (By.XPATH, '//button[normalize-space()="Add more"]')))
-            collection_add_prop_button = driver.find_element_by_xpath(
-                '//button[normalize-space()="Add more"]')
+            collection_add_prop_button = driver.find_element(
+                By.XPATH, '//button[normalize-space()="Add more"]')
             collection_add_prop_button.click()
             prop_div_num = 5
             prop_key_input_xpath = f'/html/body/div[{prop_div_num}]/div/div/div/section/table/tbody/tr[{i-4}]/td[1]/div/div/input'
@@ -120,20 +120,20 @@ def upload_files(start_item_id, count, is_rinkeby):
             time.sleep(0.1)
             wait.until(ExpectedConditions.presence_of_element_located(
                 (By.XPATH, prop_key_input_xpath)))
-            prop_key = driver.find_element_by_xpath(prop_key_input_xpath)
+            prop_key = driver.find_element(By.XPATH, prop_key_input_xpath)
             prop_key.send_keys(key)
-            prop_key = driver.find_element_by_xpath(
-                f'/html/body/div[{prop_div_num}]/div/div/div/section/table/tbody/tr[{i-4}]/td[2]/div/div/input')
+            prop_key = driver.find_element(
+                By.XPATH, f'/html/body/div[{prop_div_num}]/div/div/div/section/table/tbody/tr[{i-4}]/td[2]/div/div/input')
             prop_key.send_keys(value)
-        prop_save = driver.find_element_by_xpath(
-            f'/html/body/div[{prop_div_num}]/div/div/div/footer/button')
+        prop_save = driver.find_element(
+            By.XPATH, f'/html/body/div[{prop_div_num}]/div/div/div/footer/button')
         prop_save.click()
         print('Completed properties population')
         time.sleep(0.5)
 
         # Click on create button
-        create_NFT = driver.find_element_by_xpath(
-            '//*[@id="__next"]/div[1]/main/div/div/section/div/form/div/div[1]/span/button')
+        create_NFT = driver.find_element(
+            By.XPATH, '//*[@id="__next"]/div[1]/main/div/div/section/div/form/div/div[1]/span/button')
         create_NFT.click()
         print('Creating NFT: ', item_id, row['background'],
               row['bicycle'], row['text'], row['font'])
@@ -143,8 +143,8 @@ def upload_files(start_item_id, count, is_rinkeby):
             (By.XPATH, '/html/body/div[6]/div/div/div/div[1]/header/h4')))
         try:
             # Close the create confimation box
-            close_create_model = driver.find_element_by_xpath(
-                '/html/body/div[6]/div/div/div/div[2]/button/i')
+            close_create_model = driver.find_element(
+                By.XPATH, '/html/body/div[6]/div/div/div/div[2]/button/i')
             close_create_model.click()
             print('NFT creation completed!')
         except:
@@ -157,67 +157,67 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     time.sleep(0.5)
 
     # Click 'Get Started'
-    button = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/div/button')
+    button = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/div/button')
     button.click()
     print('Metamask "Get Started" button clicked!')
     time.sleep(0.5)
 
     # Click 'Import Wallet'
-    button = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/div[2]/div/div[2]/div[1]/button')
+    button = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/div[2]/div/div[2]/div[1]/button')
     button.click()
 
     # Click on 'Agree' to agree terms and conditions
-    button = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/div/div[5]/div[1]/footer/button[1]')
+    button = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/div/div[5]/div[1]/footer/button[1]')
     button.click()
     time.sleep(0.5)
 
     # Input passphrase / seed phrase
-    passphrase_input = driver.find_element_by_xpath(
-        '//*[@id = "app-content"]/div/div[3]/div/div/form/div[4]/div[1]/div/input')
+    passphrase_input = driver.find_element(
+        By.XPATH, '//*[@id = "app-content"]/div/div[3]/div/div/form/div[4]/div[1]/div/input')
     passphrase_input.send_keys(passphrase)
 
     # Input password twice
-    pwd_1_input = driver.find_element_by_xpath('//*[@id="password"]')
+    pwd_1_input = driver.find_element(By.XPATH, '//*[@id="password"]')
     pwd_1_input.send_keys(wallet_pwd)
-    pwd_2_input = driver.find_element_by_xpath('//*[@id="confirm-password"]')
+    pwd_2_input = driver.find_element(By.XPATH, '//*[@id="confirm-password"]')
     pwd_2_input.send_keys(wallet_pwd)
 
     # Check the checkbox
-    checkbox = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/form/div[7]/div')
+    checkbox = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/form/div[7]/div')
     checkbox.click()
 
     # Click on 'Submit'
-    submit = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/form/button')
+    submit = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/form/button')
     submit.click()
     time.sleep(0.1)
 
     # Click on 'All Done' after it appears
     wait.until(ExpectedConditions.presence_of_element_located(
         (By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/button')))
-    alldone = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div/button')
+    alldone = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/button')
     alldone.click()
     time.sleep(1)
 
     # Click the box that appears
-    x_model = driver.find_element_by_xpath(
-        '//*[@id="popover-content"]/div/div/section/header/div/button')
+    x_model = driver.find_element(
+        By.XPATH, '//*[@id="popover-content"]/div/div/section/header/div/button')
     x_model.click()
     time.sleep(0.01)
 
     # For testnet
     if is_rinkeby:  # Code not tested yet
-        network = driver.find_element_by_xpath(
-            '//*[@id="app-content"]/div/div[1]/div/div[2]/div[1]/div')
+        network = driver.find_element(
+            By.XPATH, '//*[@id="app-content"]/div/div[1]/div/div[2]/div[1]/div')
         network.click()
         time.sleep(0.1)
-        network_rinkeby = driver.find_element_by_xpath(
-            '//*[@id="app-content"]/div/div[3]/div/li[4]')
+        network_rinkeby = driver.find_element(
+            By.XPATH, '//*[@id="app-content"]/div/div[3]/div/li[4]')
         network_rinkeby.click()
 
     # Switch to OpenSea tab
@@ -225,8 +225,8 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     time.sleep(0.1)
 
     # Select Metamask from list of available wallets
-    select_wallet = driver.find_element_by_xpath(
-        '//*[@id="__next"]/div[1]/main/div/div/div/div[2]/ul/li[1]/button/div[2]/span')
+    select_wallet = driver.find_element(
+        By.XPATH, '//*[@id="__next"]/div[1]/main/div/div/div/div[2]/ul/li[1]/button/div[2]/span')
     select_wallet.click()
     time.sleep(3.5)
 
@@ -237,14 +237,14 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     # Click on Next
     wait.until(ExpectedConditions.presence_of_all_elements_located(
         (By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div[2]/div[4]/div[2]/button[2]')))
-    connect_next = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div[2]/div[4]/div[2]/button[2]')
+    connect_next = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div[2]/div[4]/div[2]/button[2]')
     connect_next.click()
     time.sleep(0.5)
 
     # Click on 'Connect'
-    connect = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div[2]/div[2]/div[2]/footer/button[2]')
+    connect = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div[2]/div[2]/div[2]/footer/button[2]')
     connect.click()
     time.sleep(4.5)
 
@@ -255,8 +255,8 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     # Click on 'Sign'
     wait.until(ExpectedConditions.presence_of_element_located(
         (By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div[3]/button[2]')))
-    sign = driver.find_element_by_xpath(
-        '//*[@id="app-content"]/div/div[3]/div/div[3]/button[2]')
+    sign = driver.find_element(
+        By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div[3]/button[2]')
     sign.click()
 
 
