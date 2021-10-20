@@ -76,7 +76,8 @@ def upload_files(start_item_id, count, is_rinkeby):
 
         # Select Collection name (should be already created)
         collection_name = driver.find_element_by_xpath(
-            '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[5]/div/input')
+            '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/div[5]/div/div[2]/input')
+        # '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[5]/div/input')
         # Below two lines are to ensure that there is no extra text in input field
         # collection_name.clear() was not working
         collection_name.send_keys(Keys.CONTROL + 'a')
@@ -93,7 +94,8 @@ def upload_files(start_item_id, count, is_rinkeby):
 
         # Properties population from metadata.csv file
         properties_plus_button = driver.find_element_by_xpath(
-            '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[6]/div[1]/div/div[2]/button')
+            '//*[@id = "__next"]/div[1]/main/div/div/section/div/form/section/div[1]/div/div[2]/button')
+        # '//*[@id="__next"]/div[1]/main/div/div/section/div/form/section[6]/div[1]/div/div[2]/button')
         properties_plus_button.click()
         print('Starting properties population...')
         unneeded = ['dna', 'name', 'description',
@@ -202,7 +204,7 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     alldone.click()
     time.sleep(1)
 
-    # Clock the box that appears
+    # Click the box that appears
     x_model = driver.find_element_by_xpath(
         '//*[@id="popover-content"]/div/div/section/header/div/button')
     x_model.click()
@@ -222,10 +224,10 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     driver.switch_to.window(tabs[1])
     time.sleep(0.1)
 
-    # Click on 'Sign in' button
-    signin_icon = driver.find_element_by_xpath(
-        '//*[@id="__next"]/div[1]/main/div/div/div/div[1]/div[2]/button')
-    signin_icon.click()
+    # Select Metamask from list of available wallets
+    select_wallet = driver.find_element_by_xpath(
+        '//*[@id="__next"]/div[1]/main/div/div/div/div[2]/ul/li[1]/button/div[2]/span')
+    select_wallet.click()
     time.sleep(3.5)
 
     # Switch to new Metamask window which opened
@@ -259,4 +261,4 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
 
 
 if __name__ == '__main__':
-    upload_files(start_item_id=459, count=500, is_rinkeby=False)
+    upload_files(start_item_id=1, count=500, is_rinkeby=False)
