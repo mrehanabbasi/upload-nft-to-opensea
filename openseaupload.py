@@ -157,6 +157,9 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
     time.sleep(0.5)
 
     # Click 'Get Started'
+    driver.refresh()    # In case an empty window opens for Metamask
+    wait.until(ExpectedConditions.presence_of_element_located(
+        (By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/div/button')))
     button = driver.find_element(
         By.XPATH, '//*[@id="app-content"]/div/div[3]/div/div/div/button')
     button.click()
