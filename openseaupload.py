@@ -19,6 +19,9 @@ load_dotenv()
 testnet_url = 'https://testnets.opensea.io/asset/create'
 mainnet_url = 'https://opensea.io/asset/create'
 project_name = 'Simple Bicycle'
+waiting_time = 100  # Adjust the time as per your internet speed
+start_count_id = 1
+total_count = 500
 
 
 def upload_files(start_item_id, count, is_rinkeby):
@@ -26,8 +29,7 @@ def upload_files(start_item_id, count, is_rinkeby):
     chop.add_extension('Metamask-10.1.1.crx')
     driver = webdriver.Chrome(options=chop)  # Using Chrome browser
     driver.maximize_window()
-    # Adjust the time as per your internet speed
-    wait = WebDriverWait(driver, 100)
+    wait = WebDriverWait(driver, waiting_time)
     df = pandas.read_csv('Generated/metadata.csv')
     if is_rinkeby:
         url = testnet_url
@@ -263,4 +265,5 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
 
 
 if __name__ == '__main__':
-    upload_files(start_item_id=1, count=500, is_rinkeby=False)
+    upload_files(start_item_id=start_count_id,
+                 count=total_count, is_rinkeby=False)
