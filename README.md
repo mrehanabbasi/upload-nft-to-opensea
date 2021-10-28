@@ -40,4 +40,4 @@ Alternatively, you can also define these two as system environment variables.
 * The `metadata.csv` file should be structured as per sample in the `Generated` folder. This will make sure that no change is required in the code.
 * Value of `start_count_id` variable shows from which value the images will be loaded from. This can be useful if if the program stops and needs to be run again.
 * Value of `total_count` variable shows the total number of images to be uploaded. This will not change even when continued from an error state.
-* If extra metadata is to be added, the lines 49, 61-62, 76-77, 102-103, 139-140 in `openseaupload.py` will need to be modified as per columns in `metadata.csv` file.
+* If extra metadata is to be added, the lines 49, 61-62, 76-77, 102-103, 152-153 in `openseaupload.py` will need to be modified as per columns in `metadata.csv` file.

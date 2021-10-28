@@ -24,7 +24,7 @@ start_count_id = 1
 total_count = 500
 
 
-def upload_files(start_item_id, count, is_rinkeby):
+def upload_files(start_item_id, count, is_rinkeby, is_polygon):
     chop = webdriver.ChromeOptions()
     chop.add_extension('Metamask-10.1.1.crx')
     driver = webdriver.Chrome(options=chop)  # Using Chrome browser
@@ -132,6 +132,19 @@ def upload_files(start_item_id, count, is_rinkeby):
         print('Completed properties population')
         time.sleep(0.5)
 
+        # Select Polygon blockchain if applicable
+        if is_polygon:
+            blockchain_button = driver.find_element(
+                By.XPATH, '//*[@id="__next"]/div[1]/main/div/div/section/div/form/div[7]/div/div[2]')
+            blockchain_button.click()
+
+            polygon_button_location = '//span[normalize-space() = "Polygon"]'
+            wait.until(ExpectedConditions.presence_of_element_located(
+                (By.XPATH, polygon_button_location)))
+            polygon_button = driver.find_element(
+                By.XPATH, polygon_button_location)
+            polygon_button.click()
+
         # Click on create button
         create_NFT = driver.find_element(
             By.XPATH, '//*[@id="__next"]/div[1]/main/div/div/section/div/form/div/div[1]/span/button')
@@ -141,11 +154,11 @@ def upload_files(start_item_id, count, is_rinkeby):
         # Wait for the create confirmation box by waiting for the NFT title
         # This also confirms which NFT is created based on its name
         wait.until(ExpectedConditions.presence_of_element_located(
-            (By.XPATH, '/html/body/div[6]/div/div/div/div[1]/header/h4')))
+            (By.XPATH, '/html/body/div[5]/div/div/div/div[1]/header/h4')))
         try:
             # Close the create confimation box
             close_create_model = driver.find_element(
-                By.XPATH, '/html/body/div[6]/div/div/div/div[2]/button/i')
+                By.XPATH, '/html/body/div[5]/div/div/div/div[2]/button/i')
             close_create_model.click()
             print('NFT creation completed!')
         except:
@@ -266,4 +279,4 @@ def sign_into_meta(driver, wait, is_rinkeby, passphrase, wallet_pwd):
 
 if __name__ == '__main__':
     upload_files(start_item_id=start_count_id,
-                 count=total_count, is_rinkeby=False)
+                 count=total_count, is_rinkeby=False, is_polygon=True)

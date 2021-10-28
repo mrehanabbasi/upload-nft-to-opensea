@@ -1,2 +1,6 @@
 dna,name,description,image,edition,date,font,background,bicycle,text
 Some text,#1,Some description.,ipfs://NewUriToReplace/1.png,1,mm/dd/yyyy,Sans Serif,Background color,color,Some text
+Some text,#2,Some description.,ipfs://NewUriToReplace/2.png,2,mm/dd/yyyy,Sans Serif,Background color,color,Some text
+Some text,#3,Some description.,ipfs://NewUriToReplace/3.png,3,mm/dd/yyyy,Sans Serif,Background color,color,Some text
+Some text,#4,Some description.,ipfs://NewUriToReplace/4.png,4,mm/dd/yyyy,Sans Serif,Background color,color,Some text
+Some text,#5,Some description.,ipfs://NewUriToReplace/5.png,5,mm/dd/yyyy,Sans Serif,Background color,color,Some text
